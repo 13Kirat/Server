@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 exports.login = async (req, res) => {
-  console.log("request received")
   const { email, password } = req.body;
 
   try {
@@ -22,7 +21,6 @@ exports.login = async (req, res) => {
 
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
-      console.log("data send")
       res.json({ token });
     });
   } catch (err) {
@@ -32,7 +30,6 @@ exports.login = async (req, res) => {
 };
 
 exports.getCurrentUser = async (req, res) => {
-  console.log("request received")
   try {
     // req.user.id is already available from the auth middleware
     const userId = req.user.id;
@@ -44,7 +41,6 @@ exports.getCurrentUser = async (req, res) => {
       return res.status(404).json({ msg: 'User not found' });
     }
 
-    console.log("data send")
     res.json(user);
   } catch (err) {
     console.error(err.message);

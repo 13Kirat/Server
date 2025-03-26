@@ -52,3 +52,22 @@ exports.completeTask = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+// Fetch task by ID
+exports.getTaskById = async (req, res) => {
+  try {
+    const taskId = req.params.id;
+
+    // Find the task by ID
+    const task = await Task.findById(taskId).populate('assignedTo', 'email');
+    
+    if (!task) {
+      return res.status(404).json({ msg: 'Task not found' });
+    }
+
+    res.json(task);
+  } catch (error) {
+    console.error('Error fetching task:', error.message);
+    res.status(500).send('Server error');
+  }
+};

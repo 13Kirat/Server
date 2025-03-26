@@ -19,4 +19,22 @@ exports.registerUser = async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server error');
   }
+};  
+
+// Fetch all users (Admin only)
+exports.getAllUsers = async (req, res) => {
+  try {
+    // Check if the requesting user is an admin
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ msg: 'Access denied. Admins only.' });
+    }
+
+    // Fetch all users, excluding passwords
+    const users = await User.find().select('-password');
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error.message);
+    res.status(500).send('Server error');
+  }
 };
+

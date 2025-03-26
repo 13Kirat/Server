@@ -59,8 +59,8 @@ exports.getTaskById = async (req, res) => {
     const taskId = req.params.id;
 
     // Find the task by ID
-    const task = await Task.findById(taskId).populate('assignedTo', 'email', 'username');
-    
+    const task = await Task.findById(taskId).populate('assignedTo', 'email'/*, 'username'*/);
+
     if (!task) {
       return res.status(404).json({ msg: 'Task not found' });
     }

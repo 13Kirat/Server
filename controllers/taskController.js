@@ -84,3 +84,20 @@ exports.getTaskById = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+// Fetch all tasks (Admin only)
+exports.getAllTasks = async (req, res) => {
+  try {
+    // Check if the requesting user is an admin
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ msg: 'Access denied. Admins only.' });
+    }
+
+    // Fetch all tasks
+    const tasks = await Task.find().populate('assignedTo', 'email', 'username');
+    res.json(tasks);
+  } catch (error) {
+    console.error('Error fetching tasks:', error.message);
+    res.status(500).send('Server error');
+  }
+};

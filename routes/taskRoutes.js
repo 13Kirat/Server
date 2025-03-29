@@ -6,8 +6,8 @@ const upload = require('../middleware/upload');
 
 router.post('/create', auth, createTask);
 router.get('/user', auth, getUserTasks);
+router.get('/all', auth, getAllTasks);
 router.put('/:taskId/complete', auth, upload.array('images'), completeTask);
 router.get('/:id', auth, getTaskById);
-router.get('/all', auth, getAllTasks);
 
 module.exports = router;
